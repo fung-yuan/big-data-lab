@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hadoop MapReduce Lab - Setup Guide</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --success: #10b981;
+            --code-bg: #0d1117;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, #1a1a2e 100%);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            padding: 3rem 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        h2::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(180deg, var(--primary), var(--success));
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: var(--text);
+            font-size: 1.1rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        pre {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            overflow-x: auto;
+            margin: 1rem 0;
+            position: relative;
+        }
+
+        code {
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: #e6edf3;
+        }
+
+        .code-header {
+            background: var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: -1rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .file-tree {
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .file-tree .folder {
+            color: #79c0ff;
+        }
+
+        .file-tree .file {
+            color: #e6edf3;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--primary);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+
+        .tip {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 4px solid var(--success);
+            padding: 1rem;
+            border-radius: 0 8px 8px 0;
+            margin: 1rem 0;
+        }
+
+        .tip-title {
+            color: var(--success);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚙️ Hadoop MapReduce Lab</h1>
+            <p class="subtitle">Step-by-step guide to set up your WordCount project</p>
+        </header>
+
+        <section>
+            <h2>Prerequisites</h2>
+            <p>Before starting, ensure you have the following installed:</p>
+            <ul style="color: var(--text-muted); margin-left: 1.5rem;">
+                <li>Java JDK 8 or higher</li>
+                <li>Apache Maven</li>
+                <li>Docker (for Hadoop cluster)</li>
+                <li>VS Code with Java extensions</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Project Structure</h2>
+            <div class="file-tree">
+                <span class="folder">📁 hadoop-labs/</span><br>
+                &nbsp;&nbsp;<span class="folder">📁 wordcount/</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 pom.xml</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 src/main/java/hadoop/mapreduce/tp1/</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 TokenizerMapper.java</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 IntSumReducer.java</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 WordCount.java</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="folder">📁 src/main/resources/input/</span><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="file">📄 file.txt</span>
+            </div>
+        </section>
+
+        <section>
+            <h2>Step 1: Create Project Structure</h2>
+            <p>Open PowerShell and run:</p>
+            <div class="code-header">PowerShell</div>
+            <pre><code># Navigate to workspace
+cd C:\Users\YourUser\Desktop
+
+# Create project directories
+mkdir -p hadoop-labs\wordcount\src\main\java\hadoop\mapreduce\tp1
+mkdir -p hadoop-labs\wordcount\src\main\resources\input</code></pre>
+        </section>
+
+        <section>
+            <h2>Step 2: Create pom.xml</h2>
+            <p>Create <code>wordcount/pom.xml</code> with dependencies and shade plugin:</p>
+            <div class="code-header">pom.xml</div>
+            <pre><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+         http://maven.apache.org/xsd/maven-4.0.0.xsd"&gt;
+    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+    &lt;groupId&gt;hadoop.mapreduce&lt;/groupId&gt;
+    &lt;artifactId&gt;wordcount&lt;/artifactId&gt;
+    &lt;version&gt;1.0-SNAPSHOT&lt;/version&gt;
+
+    &lt;properties&gt;
+        &lt;maven.compiler.source&gt;8&lt;/maven.compiler.source&gt;
+        &lt;maven.compiler.target&gt;8&lt;/maven.compiler.target&gt;
+    &lt;/properties&gt;
+
+    &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
+            &lt;artifactId&gt;hadoop-common&lt;/artifactId&gt;
+            &lt;version&gt;3.3.6&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
+            &lt;artifactId&gt;hadoop-mapreduce-client-core&lt;/artifactId&gt;
+            &lt;version&gt;3.3.6&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
+            &lt;artifactId&gt;hadoop-hdfs&lt;/artifactId&gt;
+            &lt;version&gt;3.3.6&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
+            &lt;artifactId&gt;hadoop-mapreduce-client-common&lt;/artifactId&gt;
+            &lt;version&gt;3.3.6&lt;/version&gt;
+        &lt;/dependency&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;org.apache.hadoop&lt;/groupId&gt;
+            &lt;artifactId&gt;hadoop-mapreduce-client-jobclient&lt;/artifactId&gt;
+            &lt;version&gt;3.3.6&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;
+
+    &lt;build&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+                &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;
+                &lt;version&gt;3.5.1&lt;/version&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;package&lt;/phase&gt;
+                        &lt;goals&gt;&lt;goal&gt;shade&lt;/goal&gt;&lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;transformers&gt;
+                                &lt;transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"&gt;
+                                    &lt;mainClass&gt;hadoop.mapreduce.tp1.WordCount&lt;/mainClass&gt;
+                                &lt;/transformer&gt;
+                                &lt;transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/&gt;
+                            &lt;/transformers&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;
+&lt;/project&gt;</code></pre>
+        </section>
+
+        <section>
+            <h2>Step 3: Build the Project</h2>
+            <div class="code-header">PowerShell</div>
+            <pre><code>cd hadoop-labs\wordcount
+mvn clean package</code></pre>
+            <div class="tip">
+                <div class="tip-title">💡 Tip</div>
+                <p>The shade plugin creates a fat JAR with all dependencies bundled.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Step 4: Deploy to Hadoop Cluster</h2>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Copy JAR to Docker container</h3>
+                    <pre><code>docker cp target/wordcount-1.0-SNAPSHOT.jar hadoop-master:/root/wordcount.jar</code></pre>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Connect to master node</h3>
+                    <pre><code>docker exec -it hadoop-master bash</code></pre>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Set up HDFS input</h3>
+                    <pre><code># Create input directory
+hdfs dfs -mkdir -p /data/tp1/input
+
+# Upload your data file
+hdfs dfs -put corpus.txt /data/tp1/input/</code></pre>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h3>Run the MapReduce job</h3>
+                    <pre><code>hadoop jar /root/wordcount.jar /data/tp1/input /data/tp1/output</code></pre>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <h3>View the results</h3>
+                    <pre><code>hdfs dfs -cat /data/tp1/output/*</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Monitor Your Job</h2>
+            <p>Access the YARN Resource Manager UI at:</p>
+            <p><a href="http://localhost:8088" target="_blank">http://localhost:8088</a></p>
+        </section>
+
+        <footer>
+            <p>Big Data Lab - Hadoop MapReduce</p>
+            <p><a href="https://github.com/fung-yuan/big-data-lab">View on GitHub</a></p>
+        </footer>
+    </div>
+</body>
+</html>
